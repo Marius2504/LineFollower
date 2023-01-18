@@ -5,9 +5,9 @@ The idea behind the project was to develop a concept car that moves automaticall
 ### Instructions: 
 To use the concept car, you need to restart the Arduino board and place the concept over the black line, noting that the line should be just below the centre of the sensor. After a few seconds, the concept car will start moving along the line. To stop the process, simply disconnect the battery.
 ### Used Components: 
-1.Arduino Uno
-2.Zip-ties
-3.Power source, a LiPo battery
+* Arduino Uno
+* Zip-ties
+* Power source, a LiPo battery
 4.Wheels (2)
 5.Wires for the line sensor (female - male)
 6.QTR-8A reflectance sensor, along with screws
