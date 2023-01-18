@@ -1,4 +1,4 @@
-# LineFolower
+# Line Follower 1.0
 
 ### Project Description: 
 The idea behind the project was to develop a car that moves on a line. The concept scans the ground and determines the right moment to accelerate or decelerate one of the motors to move left or right along the line. When you press the start button, the concept calibrates itself by repeatedly moving left and right.
