@@ -8,15 +8,15 @@ To use the concept car, you need to restart the Arduino board and place the conc
 * Arduino Uno
 * Zip-ties
 * Power source, a LiPo battery
-4.Wheels (2)
-5.Wires for the line sensor (female - male)
-6.QTR-8A reflectance sensor, along with screws
-7.Ball caster
-8.Extra wires from the kit or lab
-9.Chassis
-10.Breadboard - medium (400pts)
-11.L293D motor driver
-12.DC motors (2)
+* Wheels (2)
+* Wires for the line sensor (female - male)
+* QTR-8A reflectance sensor, along with screws
+* Ball caster
+* Extra wires from the kit or lab
+* Chassis
+* Breadboard - medium (400pts)
+* L293D motor driver
+* DC motors (2)
 
 Picture link: https://postimg.cc/MXhvMN75/77a05493 \
 Test lap: https://www.youtube.com/watch?v=07XBJRnSiZM \
