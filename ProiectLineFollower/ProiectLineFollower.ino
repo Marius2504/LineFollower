@@ -19,10 +19,17 @@ int lastError = 0;
 const int maxSpeed = 255;
 const int minSpeed = -255;
 const int baseSpeed = 220;
+const int minSpeedTurns = -175;
 QTRSensors qtr;
 const int sensorCount = 6;
 int sensorValues[sensorCount];
 int sensors[sensorCount] = { 0, 0, 0, 0, 0, 0 };
+int currentState = 0;
+int passes = 0;
+int trashHold = 700;
+
+byte turnLeft =0;
+byte turnRight = 1;
 void setup() {
   // pinMode setup
   pinMode(m11Pin, OUTPUT);
@@ -36,51 +43,37 @@ void setup() {
                     sensorCount);
   delay(500);
   pinMode(LED_BUILTIN, OUTPUT);
-  digitalWrite(LED_BUILTIN, HIGH);  // turn on Arduino's LED to indicate we
-  //are in calibration mode
-  // calibrate the sensor. For maximum grade the line follower should do
-  //the movement itself, without human interaction.
-  // for (uint16_t i = 0; i < 400; i++) {
-  //   qtr.calibrate();
-  //   // do motor movement here, with millis() as to not ruin calibration)
-  // }
+  digitalWrite(LED_BUILTIN, HIGH);
 
-  int currentState = 0;
-  int passes = 0;
+  // passes = number of oscillations above the line
   while(passes < 5){
-
     qtr.calibrate();
     qtr.read(sensorValues);
-
-    if(currentState == 0) 
+    if(currentState == turnLeft) 
     {
-        if(sensorValues[0] < 700){
-          setMotorSpeed(220, -220);
+        if(sensorValues[0] < trashHold){
+          setMotorSpeed(baseSpeed, -baseSpeed);
         }
         else {
-          currentState = 1;
+          currentState = turnRight;
         }
     }
-
-    if(currentState == 1)
+    if(currentState == turnRight)
     {
-      if(sensorValues[5] < 700){
-          setMotorSpeed(-220, 220);
+      if(sensorValues[5] < trashHold){
+          setMotorSpeed(-baseSpeed, baseSpeed);
         }
         else {
-          currentState = 0;
+          currentState = turnLeft;
           passes ++;
         }
     }
   }
-
-
   digitalWrite(LED_BUILTIN, LOW);
   Serial.begin(9600);
 }
-void loop() {
 
-  // inefficient code, written in loop. You must create separate functions
+void loop() {
   int error = map(qtr.readLineBlack(sensorValues), 0, 5000, -50, 50);
   p = error;  
   i = i + error;
@@ -95,8 +88,8 @@ void loop() {
     m2Speed -= motorSpeed;
   }
   
-  m1Speed = constrain(m1Speed, -175, maxSpeed);
-  m2Speed = constrain(m2Speed, -175, maxSpeed);
+  m1Speed = constrain(m1Speed, minSpeedTurns, maxSpeed);
+  m2Speed = constrain(m2Speed, minSpeedTurns, maxSpeed);
   setMotorSpeed(m1Speed, m2Speed);
   // DEBUGGING
   // Serial.print("Error: ");
@@ -110,6 +103,7 @@ void loop() {
   //
   // delay(250);
 }
+
 // calculate PID value based on error, kp, kd, ki, p, i and d.
 int pidControl(float kp, float ki, float kd) {
   return kp * p + ki * i + kd * d;
